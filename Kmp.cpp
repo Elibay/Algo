@@ -31,15 +31,13 @@
 #define ull unsigned ll
 using namespace std;
 
-const int MaxN = 1e5 + 17;
+const int MaxN = 5e5 + 17;
 const ll INF = 2e9 + 17;
 const int MOD = 1e9 + 7;
 const double eps = 1e-3;
 const double pi = 3.14159265359;
 
-int p[MaxN], k, sum, a[MaxN];
-string s, t;
-
+int p[MaxN];
 
 int main()
 {
@@ -47,18 +45,22 @@ int main()
         freopen (".in", "r", stdin);
         freopen (".out", "w", stdout);
     #endif
+    string s, t;
     cin >> s >> t;
-    k = t.size ();
-    t = t + char(1) + s;
-    for (int i = 1; i <= t.size(); i ++)
+    s = t + '$' + s;
+    int n = s.size();
+    for (int i = 1; i < n; ++ i)
     {
         int j = p[i - 1];
-        while (j > 0 && t[i] != t[j])
+        while (j > 0 && s[j] != s[i])
             j = p[j - 1];
-        if (t[i] == t[j])
-            j ++;
+        if (s[j] == s[i])
+            ++ j;
         p[i] = j;
     }
-    
+    for (int i = 0; i < n; ++ i)
+        cout << p[i] << ' ';
     return 0;
 }
+
+
