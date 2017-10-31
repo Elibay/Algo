@@ -39,11 +39,11 @@ const double pi = 3.14159265359;
 
 
 string S;
-ull h[3][MaxN], d[MaxN];
+ull h[MaxN], d[MaxN];
 
 ull get (int x, int l, int r)
 {
-    return h[x][r] - h[x][l - 1] * d[r - l + 1];
+    return h[r] - h[l - 1] * d[r - l + 1];
 }
 
 int main()
@@ -54,7 +54,7 @@ int main()
     #endif
     d[0] = 1;
     for (int i = 1; i <= S.size(); ++ i)
-        h[1][i] = h[1][i - 1] * 37 + S[i - 1] , d[i] = d[i - 1] * 37;
+        h[i] = h[i - 1] * 37 + S[i - 1] , d[i] = d[i - 1] * 37;
     
     return 0;
 }
