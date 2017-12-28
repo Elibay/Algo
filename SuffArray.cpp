@@ -64,6 +64,7 @@ int main()
         else
             color [a[i]] = cn - 1;
     }
+    
     for (int len = 1; len < n; len += len)
     {
         for (int j = 0; j < n; j ++)
