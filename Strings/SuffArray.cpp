@@ -41,8 +41,7 @@ string s;
 int na[MaxN], head[MaxN], a[MaxN], color[MaxN], ncolor[MaxN];
 int n, cn;
 
-bool cmp (int i, int j)
-{
+bool cmp (int i, int j) {
     return (s[i] < s[j]);
 }
 int main()
@@ -57,6 +56,7 @@ int main()
     for (int i = 0; i < n; i ++)
         a[i] = i;
     sort (a, a + n, cmp);
+    
     for (int i = 0; i < n; i ++)
     {
         if (i == 0 || s[a[i - 1]] != s[a[i]])
