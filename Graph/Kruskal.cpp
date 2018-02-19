@@ -41,6 +41,7 @@ const int MOD = 1e9 + 7;
 const double eps = 1e-9;
 const double pi = 3.14159265359;
  
+vector < pair < int, pair < int, int > > > ans, g;
 int n, m;
 int p[MaxN], sz[MaxN];
  
@@ -60,15 +61,28 @@ void add (int x, int y) {
     p[x] = y;
     sz[y] += sz[x];
 }
- 
 int main () {
     #ifdef DEBUG
         freopen(".in", "r", stdin);
         freopen(".out", "w", stdout);
     #endif
-    for (int i = 1; i <= n; ++ i) {
-        p[i] = i;
-        sz[i] = 1;
+    scanf ("%d%d", &n, &m);
+    for (int i = 1; i <= m; ++ i) {
+        int v, to, w;
+        scanf ("%d%d%d", &v, &to, &w);
+        g.push_back (make_pair (w, make_pair (v, to)));
+    }
+    for (int i = 1; i <= n; ++ i) 
+    	p[i] = i, sz[i] = 1;
+    sort (g.begin(), g.end());
+    for (int i = 0; i < g.size(); ++ i) {
+        int w = g[i].first;
+        int v = g[i].second.first;
+        int to = g[i].second.second;
+        if (get (w) != get (v)) {
+            ans.push_back(make_pair (w, make_pair(v, to)));
+            add (w, v);
+        }
     }
     return 0;
 }

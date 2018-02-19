@@ -1,3 +1,6 @@
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,sse3,sse4,popcnt,abm,mmx")
+
 #include <map>
 #include <set>
 #include <list>
@@ -23,71 +26,80 @@
 #include <algorithm>
 #include <stdio.h>
 #include <fstream>
-#define endl "\n"
+
 #define c0 ios_base :: sync_with_stdio(0); cin.tie (0);
 #define s second
 #define f first
 #define ll long long
-#define ull unsigned ll
+#define ull unsigned long long
+
 using namespace std;
 
-const int MaxN = 1000 + 17;
-const ll INF = 1e18 + 17;
+const int MaxN = 5e5 + 17;
+const int INF = 1e9 + 17;
 const int MOD = 1e9 + 7;
-const double eps = 1e-3;
+const double eps = 1e-9;
 const double pi = 3.14159265359;
 
 string s;
-int na[MaxN], head[MaxN], a[MaxN], color[MaxN], ncolor[MaxN];
+
+int a[MaxN], na[MaxN], c[MaxN], nc[MaxN], h[MaxN];
+int p[MaxN], lcp[MaxN];
+
 int n, cn;
 
 bool cmp (int i, int j) {
     return (s[i] < s[j]);
 }
-int main()
-{
+
+int main () {
     #ifdef DEBUG
-        freopen (".in", "r", stdin);
-        freopen (".out", "w", stdout);
+        freopen(".in", "r", stdin);
+        freopen(".out", "w", stdout);
     #endif
-    getline (cin, s);
-    s += char (31);
-    n = s.size();
-    for (int i = 0; i < n; i ++)
+    cin >> s;
+    s += '#';
+    n = int (s.size());
+    for (int i = 0; i < n; ++ i) {
         a[i] = i;
-    sort (a, a + n, cmp);
-    
-    for (int i = 0; i < n; i ++)
-    {
-        if (i == 0 || s[a[i - 1]] != s[a[i]])
-            head [cn] = i, color[a[i]] = cn ++;
-        else
-            color [a[i]] = cn - 1;
     }
-    
-    for (int len = 1; len < n; len += len)
-    {
-        for (int j = 0; j < n; j ++)
-        {
+    sort (a, a + n, cmp);
+    for (int i = 0; i < n; ++ i) {
+        if (i == 0 || s[a[i]] != s[a[i - 1]])
+            h[cn] = i, cn ++;
+        c[a[i]] = cn - 1;
+    }
+    for (int len = 1; len < n; len += len) {
+        for (int j = 0; j < n; ++ j) {
             int i = a[j] - len;
             if (i < 0)
                 i += n;
-            na [head [color [i]] ++] = i;
+            na[h[a[c[i]]] ++] = i;
         }
         cn = 0;
-        for (int i = 0; i < n; i ++)
-        {
+        for (int i = 0; i < n; ++ i) {
             a[i] = na[i];
-            if (i == 0 || color [a [i]] != color [a [i - 1]] || color [(a[i] + len) % n] != color [(a[i - 1] + len) % n])
-                head [cn] = i, ncolor [a [i]] = cn ++;
-            else
-                ncolor [a [i]] = cn - 1;
+            if (i == 0 || c[a[i]] != c[a[i - 1]] || c[(a[i] + len) % n] != c[(a[i - 1] + len) % n])
+                h[cn] = i, cn ++;
+            nc[a[i]] = cn - 1;
         }
-        memcpy (color, ncolor, n * sizeof (int));
+        memcpy (c, nc, n * sizeof (int));
     }
-    for (int i = 1; i < n; i ++)
-        cout << a[i] + 1 << ' ';
+    for (int i = 0; i < n; ++ i)
+        p[a[i]] = i;
+    int m = 0;
+    for (int i = 0; i < n; ++ i) {
+        int j = p[i];
+        if (j == n - 1) {
+            lcp[j] = 0;
+            m = 0;
+            continue;
+        }
+        m = max (m - 1, 0);
+        while (i + m < n && a[j + 1] + m < n && s[i + m] == s[a[j + 1] + m])
+            m ++;
+        lcp[j] = m;
+    }
+    
     return 0;
 }
-
-

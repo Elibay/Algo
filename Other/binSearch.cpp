@@ -1,3 +1,6 @@
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,sse3,sse4,popcnt,abm,mmx")
+
 #include <map>
 #include <set>
 #include <list>
@@ -32,50 +35,35 @@
 
 using namespace std;
 
-const int MaxN = 1e5 + 17;
+const int MaxN = 2e6 + 17;
 const int INF = 1e9 + 17;
 const int MOD = 1e9 + 7;
 const double eps = 1e-9;
 const double pi = 3.14159265359;
 
-
-int t[4 * MaxN];
-int a[MaxN];
-void build (int v, int l, int r) {
-	if (l == r) 
-	{
-		t[v] = a[l];
-		return;
-	}
-	int m = (l + r) >> 1;
-	build (v + v, l, m);
-	build (v + v + 1, m + 1, r);
-	t[v] = t[v + v] + t[v + v + 1];
+bool check (int x) {
+    
 }
-int get (int v, int l, int r, int L, int R) {
-	if (L <= l && r <= R) {
-		return t[v];
-	}
-	if (l > R || r < L) 
-		return 0;
-	int m = (l + r) >> 1;
-	return get (v + v, l, m, L, R) + get (v + v + 1, m + 1, r, L, R);
-}
-void upd (int v, int l, int r, int pos, int val) {
-    if (l == r) {
-        t[v] = val;
-        return;
+int binSearch () {
+    int l = 1, r = 100, ans = 0;
+    while (l <= r) {
+        int m = (l + r) >> 1;
+        if (check (m)) {
+            ans = m;
+            l = m + 1;
+        }
+        else {
+            r = m - 1;
+        }
     }
-    int m = (l + r) >> 1;
-    if (pos <= m)
-        upd (v + v, l, m, pos, val);
-    else
-        upd (v + v + 1, m + 1, r, pos, val);
-    t[v] = t[v + v] + t[v + v + 1];
+    return ans;
 }
-
 
 int main () {
+    #ifdef DEBUG
+        freopen(".in", "r", stdin);
+        freopen(".out", "w", stdout);
+    #endif
 
-	return 0;
+    return 0;
 }

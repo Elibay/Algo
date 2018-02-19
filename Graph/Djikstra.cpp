@@ -1,6 +1,6 @@
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,sse3,sse4,popcnt,abm,mmx")
- 
+
 #include <map>
 #include <set>
 #include <list>
@@ -26,49 +26,55 @@
 #include <algorithm>
 #include <stdio.h>
 #include <fstream>
- 
+
 #define c0 ios_base :: sync_with_stdio(0); cin.tie (0);
 #define s second
 #define f first
 #define ll long long
 #define ull unsigned long long
- 
+
 using namespace std;
- 
+
 const int MaxN = 5e5 + 17;
-const ll INF = 1e18 + 17;
+const int INF = 1e9 + 17;
 const int MOD = 1e9 + 7;
 const double eps = 1e-9;
 const double pi = 3.14159265359;
- 
+
 int n, m;
-int p[MaxN], sz[MaxN];
- 
-int get (int x) {
-    if (x == p[x])
-        return x;
-    return p[x] = get(p[x]);
-}
- 
-void add (int x, int y) {
-    x = get (x);
-    y = get (y);
-    if (x == y)
-        return;
-    if (sz[x] > sz[y])
-        swap(x, y);
-    p[x] = y;
-    sz[y] += sz[x];
-}
- 
+vector < pair < int, int > > g[MaxN];
+set < pair < int, int > > S;
+int s, f;
+int d[MaxN];
+
 int main () {
     #ifdef DEBUG
         freopen(".in", "r", stdin);
         freopen(".out", "w", stdout);
     #endif
-    for (int i = 1; i <= n; ++ i) {
-        p[i] = i;
-        sz[i] = 1;
+    scanf ("%d%d%d", &n, &m, &s);
+    for (int i = 1; i <= m; ++ i) {
+        int x, y, w;
+        scanf ("%d%d%d", &x, &y, &w);
+        g[x].push_back (make_pair (y, w));
+        g[y].push_back (make_pair (x, w));
+    }
+    for (int i = 1; i <= n; ++ i)
+        d[i] = INF;
+    d[s] = 0;
+    S.insert (make_pair (0, s));
+    while (!S.empty()) {
+        int v = S.begin() -> second;
+        S.erase (*S.begin());
+        for (int i = 0; i < g[v].size(); ++ i) {
+            int to = g[v][i].first;
+            int w = g[v][i].second;
+            if (d[v] + w < d[to]) {
+                S.erase(make_pair (d[to], to));
+                d[to] = d[v] + w;
+                S.insert(make_pair (d[to], to));
+            }
+        }
     }
     return 0;
 }

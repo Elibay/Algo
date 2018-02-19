@@ -1,3 +1,6 @@
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,sse3,sse4,popcnt,abm,mmx")
+
 #include <map>
 #include <set>
 #include <list>
@@ -23,37 +26,35 @@
 #include <algorithm>
 #include <stdio.h>
 #include <fstream>
-#define endl "\n"
+
 #define c0 ios_base :: sync_with_stdio(0); cin.tie (0);
 #define s second
 #define f first
 #define ll long long
-#define ull unsigned ll
+#define ull unsigned long long
+
 using namespace std;
 
-const int MaxN = 1e5 + 17;
-const ll INF = 2e9 + 17;
+const int MaxN = 2e6 + 17;
+const int INF = 1e9 + 17;
 const int MOD = 1e9 + 7;
-const double eps = 1e-3;
+const double eps = 1e-9;
 const double pi = 3.14159265359;
 
-
-string S;
-ull h[MaxN], d[MaxN];
-
-ull get (int x, int l, int r) {
-    return h[r] - h[l - 1] * d[r - l + 1];
+ll binpow (ll a, int n) {
+    if (!n)
+        return 1;
+    if (n % 2 == 1)
+        return a * binpow (a, n - 1);
+    ll b = binpow (a, n / 2);
+    return b * b;
 }
 
-int main()
-{
+int main () {
     #ifdef DEBUG
-        freopen (".in", "r", stdin);
-        freopen (".out", "w", stdout);
+        freopen(".in", "r", stdin);
+        freopen(".out", "w", stdout);
     #endif
-    d[0] = 1;
-    for (int i = 1; i <= S.size(); ++ i)
-        h[i] = h[i - 1] * 37 + S[i - 1] , d[i] = d[i - 1] * 37;
-    
+    cout << binpow(2, 10);
     return 0;
 }

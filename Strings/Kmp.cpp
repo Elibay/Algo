@@ -39,8 +39,7 @@ const double pi = 3.14159265359;
 
 int p[MaxN];
 
-int main()
-{
+int main () {
     string s, t;
     cin >> s >> t;
     s = t + '$' + s;
