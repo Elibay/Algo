@@ -62,6 +62,6 @@ int main () {
         else
             r = m2;
     }
-    printf ("%.6f\n", max (f(l), f(r)));
+    
     return 0;
 }

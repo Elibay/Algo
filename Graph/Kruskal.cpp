@@ -79,9 +79,9 @@ int main () {
         int w = g[i].first;
         int v = g[i].second.first;
         int to = g[i].second.second;
-        if (get (w) != get (v)) {
+        if (get (to) != get (v)) {
             ans.push_back(make_pair (w, make_pair(v, to)));
-            add (w, v);
+            add (to, v);
         }
     }
     return 0;
